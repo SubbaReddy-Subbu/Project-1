@@ -6,12 +6,13 @@ function App() {
 
 console.log()
   return (
-    <div className="App bg-slate-300 min-h-[100vh] max-h-full">
-      <h1>This is the api data</h1>
-      <button >New Profile</button>
-      <p>data</p>
-        <Profile />
+    <>
+    <div className="App py-4 bg-black flex-col mx-auto justify-center max-h-full">
+      <h1 className='flex text-2xl text-white hover:text-slate-400 justify-center mx-auto'>This is the api data</h1>  
     </div>
+    <Profile />
+    </>
+    
   );
 }
 

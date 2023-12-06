@@ -55,6 +55,7 @@ const Profile = () => {
   };
 
   const [open, setOpen] = useState(false);
+  const [EditingProfile, setEditingProfile] = useState(false);
   const cancelButtonRef = useRef(null);
 
   useEffect(() => {
@@ -68,7 +69,14 @@ const Profile = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
-  const Update = (i, _id) => {};
+  const Update = (i, _id) => {
+    const selectedProfile = Profile.find((item) => item._id === _id);
+    if (selectedProfile) {
+      setFormData({ ...selectedProfile });
+      setEditingProfile(selectedProfile);
+      setOpen(true);
+    }
+  };
   const Delete = async (i, _id) => {
     try {
       const response = await axios.delete(
@@ -87,14 +95,14 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <div className="p-4 flex-col bg-slate-400 h-screen justify-center">
       <button
         onClick={() => setOpen(true)}
-        className="bg-blue-500 justify-end flex text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+        className= "m-4 ml-auto bg-blue-500 justify-end flex text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
       >
         New User
       </button>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div className={`relative overflow-x-auto shadow-md sm:rounded-lg ${Profile.length === 0 ? 'hidden' : ''}`}>
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -243,14 +251,13 @@ const Profile = () => {
                           id="Profile_img"
                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                           accept="image/*"
-                          value={formData.Profile_img}
+                          value={formData.Profile_img || "../assets/logo.png" }
                           onChange={(e) =>
                             setFormData({
                               ...formData,
                               Profile_img: e.target.value,
                             })
                           }
-                          required
                         />
                       </div>
                       <div>
